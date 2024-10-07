@@ -13,7 +13,9 @@ pipeline {
         stage("Test") {
             steps {
                 echo "Hello Test"
+                sh(error)
             }
+
         }
         stage("Deploy") {
             steps {
