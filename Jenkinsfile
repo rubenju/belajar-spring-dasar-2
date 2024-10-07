@@ -7,16 +7,16 @@ pipeline {
     stages {
         stage("Build") {
             steps {
-                echo "Hello Build 1"
-                echo "Hello Build 2"
-                echo "Hello Build 3"
+                echo "Start build"
+                sh("./mvnw clean compile test-compile")
+                echo "Finished build"
             }
         }
         stage("Test") {
             steps {
-                echo "Hello Test 1"
-                echo "Hello Test 2"
-                echo "Hello Test 3"
+                echo "Check docker container status"
+                sh("sudo docker ps")
+                echo "Check container status finished"
             }
         }
         stage("Deploy") {
