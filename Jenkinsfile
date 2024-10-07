@@ -1,6 +1,9 @@
 pipeline {
-    agent any
-    
+    agent {
+        node {
+            label "linux && centos"
+        }
+    }
     stages {
         stage("Hello") {
             steps {
