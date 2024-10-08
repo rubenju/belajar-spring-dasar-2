@@ -7,6 +7,9 @@ pipeline {
     agent none
     stages {
         stage("Prepare") {
+            environment {
+                APP = credentials("ben_rahasia")
+            }
             agent {
                 node {
                     label "linux && centos"
@@ -16,6 +19,8 @@ pipeline {
                 echo("Start Job : ${env.JOB_NAME}")
                 echo("Start Build : ${env.BUILD_NUMBER}")
                 echo("Branch Name : ${env.BRANCH_NAME}")
+                echo("App User : ${env.APP_USR}")
+                echo("App Password : ${env.APP_PSW}")
             }
         }
         stage("Build") {
