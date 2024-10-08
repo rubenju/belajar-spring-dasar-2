@@ -1,11 +1,17 @@
 pipeline {
-    agent {
-        node {
-            label "linux && centos"
-        }
-    }
+    // agent {
+    //     node {
+    //         label "linux && centos"
+    //     }
+    // }
+    agent none
     stages {
         stage("Build") {
+            agent {
+                node {
+                    label "linux && centos"
+                }
+            }
             steps {
                 script {
                     def data = [
@@ -27,6 +33,11 @@ pipeline {
             }
         }
         stage("Deploy") {
+            agent {
+                node {
+                    label "linux && centos"
+                }
+            }
             steps {
                 echo "Hello Deploy 1"
                 echo "Hello Deploy 2"
