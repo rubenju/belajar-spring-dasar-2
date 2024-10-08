@@ -8,9 +8,11 @@ pipeline {
         stage("Build") {
             steps {
                 script {
-                    for (int i=0; i<10; i++) {
-                        echo ("Script ${i}")
-                    }
+                    def data = [
+                        "firstName" : "Ben",
+                        "lastName" : "Ju"
+                    ]
+                    writeJSON(file: "data.json", json:data)
                 }
                 echo "Start build"
                 sh("./mvnw clean compile test-compile")
@@ -20,7 +22,7 @@ pipeline {
         stage("Test") {
             steps {
                 echo "Check docker container status"
-                sh("sudo docker ps")
+                // sh("sudo docker ps")
                 echo "Check container status finished"
             }
         }
