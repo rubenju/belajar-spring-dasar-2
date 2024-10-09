@@ -5,6 +5,10 @@ pipeline {
     //     }
     // }
     agent none
+    options {
+        disableConcurrentBuilds()
+        timeout(time: 10, unit: 'MINUTES')
+    }
     stages {
         stage("Prepare") {
             environment {
@@ -19,8 +23,8 @@ pipeline {
                 echo("Start Job : ${env.JOB_NAME}")
                 echo("Start Build : ${env.BUILD_NUMBER}")
                 echo("Branch Name : ${env.BRANCH_NAME}")
-                echo("App User : ${env.APP_USR}")
-                echo("App Password : ${env.APP_PSW}")
+                echo("App User : ${APP_USR}")
+                sh('echo "App Password : $APP_PSW" > "rahasia.txt"')
             }
         }
         stage("Build") {
