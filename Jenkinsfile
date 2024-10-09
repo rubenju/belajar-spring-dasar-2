@@ -166,15 +166,17 @@ pipeline {
                     return params.DEPLOY
                 }
             }
-            steps {
-                withCredentials([usernamePassword(
-                    credentialsId: "ben_rahasia",
-                    usernameVariable: "USER",
-                    passwordVariable: "PASSWORD"
-                )]) {
-                    sh('echo "Release with -u $USER -P $PASSWORD" > "release.txt"')
+            node {
+                steps {
+                    withCredentials([usernamePassword(
+                        credentialsId: "ben_rahasia",
+                        usernameVariable: "USER",
+                        passwordVariable: "PASSWORD"
+                    )]) {
+                        sh('echo "Release with -u $USER -P $PASSWORD" > "release.txt"')
+                    }
+                    echo "Release it"
                 }
-                echo "Release it"
             }
         }
     }
