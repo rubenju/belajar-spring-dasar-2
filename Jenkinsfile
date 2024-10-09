@@ -24,6 +24,32 @@ pipeline {
     }
 
     stages {
+        stage("Preparation") {
+            parallel {
+                stage("Prepare Java") {
+                agent {
+                    node {
+                    label "linux && centos"
+                    }
+                }
+                steps {
+                    echo("Prepare Java")
+                    sleep(5)
+                }
+                }
+                stage("Prepare Maven") {
+                agent {
+                    node {
+                    label "linux && java11"
+                    }
+                }
+                steps {
+                    echo("Prepare Maven")
+                    sleep(5)
+                }
+                }
+            }
+        }
 
         stage("Parameter") {
             steps {
