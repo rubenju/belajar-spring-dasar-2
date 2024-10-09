@@ -11,9 +11,9 @@ pipeline {
         timeout(time: 10, unit: 'MINUTES')
     }
 
-    triggers {
-        cron("*/5 * * * *")
-    }
+    // triggers {
+    //     cron("*/5 * * * *")
+    // }
 
     parameters {
         string(name: "NAME", defaultValue: "Guest", description: "What is your name?")
@@ -29,7 +29,7 @@ pipeline {
             steps {
                 echo "Hello ${params.NAME}"
                 echo "You description is ${params.DESCRIPTION}"
-                echo "Your social medis is ${params.SOCIAL_MEDIA}"
+                echo "Your social media is ${params.SOCIAL_MEDIA}"
                 echo "Need to deploy : ${params.DEPLOY} to deploy!"
                 echo "Your secret is ${params.SECRET}"
             }
@@ -87,6 +87,11 @@ pipeline {
                     label "linux && centos"
                 }
             }
+            input {
+                message "Can we deploy?"
+                ok "Yes, of course"
+                submitter "pzn,eko"
+            }
             steps {
                 echo "Hello Deploy 1"
                 echo "Hello Deploy 2"
@@ -94,7 +99,7 @@ pipeline {
             }
         }
     }
-    
+
     post {
         always {
             echo "I will always says hello again."
