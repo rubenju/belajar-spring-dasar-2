@@ -5,14 +5,36 @@ pipeline {
     //     }
     // }
     agent none
+
     options {
         disableConcurrentBuilds()
         timeout(time: 10, unit: 'MINUTES')
     }
-    parameters {
-        string(name: "NAME", defaultValue: "Guest", description: "Name?")
+
+    triggers {
+        cron("*/5 * * * *")
     }
+
+    parameters {
+        string(name: "NAME", defaultValue: "Guest", description: "What is your name?")
+        text(name: "DESCRIPTION", defaultValue: "Guest", description: "Tell me about you")
+        booleanParam(name: "DEPLOY", defaultValue: false, description: "Need to Deploy?")
+        choice(name: "SOCIAL_MEDIA", choices: ['Instagram', 'Facebook', 'Twitter'], description: "Which Social Media?")
+        password(name: "SECRET", defaultValue: "", description: "Encrypt Key")
+    }
+
     stages {
+
+        stage("Parameter") {
+            steps {
+                echo "Hello ${params.NAME}"
+                echo "You description is ${params.DESCRIPTION}"
+                echo "Your social medis is ${params.SOCIAL_MEDIA}"
+                echo "Need to deploy : ${params.DEPLOY} to deploy!"
+                echo "Your secret is ${params.SECRET}"
+            }
+        }
+
         stage("Prepare") {
             environment {
                 APP = credentials("ben_rahasia")
@@ -30,11 +52,7 @@ pipeline {
                 sh('echo "App Password : $APP_PSW" > "rahasia.txt"')
             }
         }
-        stage("Parameter") {
-            steps {
-                echo "Params name : ${params.NAME}"
-            }
-        }
+
         stage("Build") {
             agent {
                 node {
@@ -54,6 +72,7 @@ pipeline {
                 echo "Finished build"
             }
         }
+
         stage("Test") {
             steps {
                 echo "Check docker container status"
@@ -61,6 +80,7 @@ pipeline {
                 echo "Check container status finished"
             }
         }
+
         stage("Deploy") {
             agent {
                 node {
@@ -74,6 +94,7 @@ pipeline {
             }
         }
     }
+    
     post {
         always {
             echo "I will always says hello again."
