@@ -7,7 +7,10 @@ pipeline {
     agent none
     options {
         disableConcurrentBuilds()
-        timeout(time: 10, unit: 'SECONDS')
+        timeout(time: 10, unit: 'MINUTES')
+    }
+    parameters {
+        string(name: "NAME", defaultValue: "Guest", description: "Name?")
     }
     stages {
         stage("Prepare") {
@@ -25,6 +28,11 @@ pipeline {
                 echo("Branch Name : ${env.BRANCH_NAME}")
                 echo("App User : ${APP_USR}")
                 sh('echo "App Password : $APP_PSW" > "rahasia.txt"')
+            }
+        }
+        stage("Parameter") {
+            steps {
+                echo "Params name : ${params.NAME}"
             }
         }
         stage("Build") {
