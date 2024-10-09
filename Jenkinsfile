@@ -90,12 +90,23 @@ pipeline {
             input {
                 message "Can we deploy?"
                 ok "Yes, of course"
-                submitter "pzn,eko"
+                submitter "osi"
             }
             steps {
                 echo "Hello Deploy 1"
                 echo "Hello Deploy 2"
                 echo "Hello Deploy 3"
+            }
+        }
+
+        stage("Release") {
+            when {
+                expression {
+                    return params.DEPLOY
+                }
+            }
+            steps {
+                echo "Release it"
             }
         }
     }
